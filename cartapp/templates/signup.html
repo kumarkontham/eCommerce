@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block title %} Signup {% endblock title %}
+        {% block body%}
+        <main style="width: 80%;  margin: 3% 15% 10% 20%;">
+        <div  id="m" class="card bg-light p-4 ">
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert" >
+                <strong>{{message}}</strong>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="True">&times;</span>
+                </button>
+               
+              </div>
+            {%endfor%}
+            <h3 align="center" class="text-dark">Signup</h3>
+            <form action="/signup/" method="post">
+                {% csrf_token %}
+                <label for="un"> Enter Username</label>
+                <div class="form-group" id="un"><input type="text" class="form-control p-2" id="un" name="un" required/>
+                    </div>
+                <label for="email"> Enter email</label>
+                <div class="form-group"><input type="email" class="form-control p-2" id="email" name="email" required/>
+                    </div>
+                <label for="p1"> Create Password</label>
+                <div class="form-group"><input type="password" class="form-control p-2" id="pa1" name="p1" required/>
+                </div>
+                    <label for="p2"> Confirm Password</label>
+                    <div class="form-group">
+                <input type="password" class="form-control p-2" id="pa2" name="p2" required/>
+                        </div>
+                    <br>
+                    <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-primary">Signup</button>
+                    </div>
+                    <br>
+                   <p align="center"> Already User?<a href="/login/">&nbsp;Login</a></p>
+            </form>
+        </div>
+    </main>
+        <script>
+            
+   
+
+
+</script>
+    {% endblock body%}
+   

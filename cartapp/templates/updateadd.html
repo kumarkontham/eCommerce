@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block title%} Update {%endblock title%}
+    {%block body%}
+<div style="justify-content: space-between; background-color: #ffffff; margin-left: 5%; padding: 20px; margin-top: 2%;width: 50%;">
+    
+    <h3 style="margin-bottom: 3%;">Update Address</h3>
+    
+    <form method="POST" >
+    {% csrf_token %}
+    <div class="mb-3">
+        <label class="form-label">Full Name:</label>
+        {{ form.name }}
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Email:</label>
+        {{ form.email }}
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Mobile:</label>
+        {{ form.phone }}
+    </div>
+    <div class="mb-3">
+        <label class="form-label">City:</label>
+        {{ form.city }}
+    </div>
+    <div class="mb-3">
+        <label class="form-label">postal_code:</label>
+        {{ form.postal_code }}
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Country:</label>
+        {{ form.country }}
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Address:</label>
+        {{ form.address }}
+    </div>
+    <div class="d-grid gap-2 col-6">
+    <button type="submit" class="btn btn-primary" >Update Address</button>
+    </div>
+</form>
+</div>
+{%endblock body%}

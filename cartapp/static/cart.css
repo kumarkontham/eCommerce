@@ -1,0 +1,130 @@
+.product_item{
+    padding:15px 20px 20px 20px;
+    margin-left: 6%;
+    margin-top: 3%;
+    margin-right: 3%;
+    width: 49%;
+    height: auto;
+    background-color:#ffff;
+    border-radius: 5px;
+    box-shadow:0 0 2px rgb(76, 74, 74); 
+    
+}
+img{
+    width:55%;
+    height:80%;
+}
+ #img{
+    margin:1%;
+    padding:10px 1px 10px 5px ;
+
+
+ }
+#main{
+padding-right:20px;
+
+width: 100%;
+margin: 0%;
+}
+#name{
+margin-bottom:px;
+}
+tr{
+    justify-content: space-evenly;
+    align-items: center;
+    padding: 10px 10px 10px 10px;
+}
+
+   
+ 
+ thead{
+    padding:20px;
+    padding-left: 40px;
+ }
+ #inp{
+    display:inline-flex;
+ }
+ .card1{
+    width:25%;
+    height:40%;
+    margin-top: 3%;
+    margin-right: 6%;
+    margin-left: 1%;
+    align-items: center;
+    background-color: #ffff;
+    box-shadow: 0 0 2px black;
+    padding: 4px;
+    border-radius: 4px;
+    
+    
+    
+ }
+ .list-group{
+    width: 100%;
+    background-color: #eaeaea;
+    
+    
+ }
+ #am{
+    width: 40%;
+    padding: 2px;
+    
+    align-items: right;
+ }
+ #sh{
+    width: 40%;
+    padding: 2px;
+    
+    align-items: right;
+ }
+ #ta{
+   
+    align-items: center;
+    padding: 2px;
+    width: 40%;
+ }
+ .list-group-item{
+    width: 100%;
+    height: 45px;
+    justify-content:space-between;
+ }
+ .pc{
+    background-color: #ffffff;
+    margin:1px;
+    height: 100px;
+ }
+ .d-grid a{
+    width:90%;
+    
+    
+    
+   
+    
+    
+
+ }
+
+.d-grid{
+   width: 100%;
+
+   
+}
+ 
+ .trash:hover{
+    cursor: pointer;
+    
+ }
+ .trash{
+    color: #040000;
+ }
+ #tc:hover{
+    color: #ab0000;
+    transform:scale(1.40);
+    border-radius: 4%;
+    
+ }
+ .card-body{
+    
+    align-items: center;
+
+ }

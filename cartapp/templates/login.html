@@ -1,0 +1,41 @@
+{% extends 'base.html'%}
+{% block title %} Login {% endblock title %}
+        {% block body%}
+        <section id="sec">
+        <div id="hed2" class="card" >
+        <h3>wellcome to Onlineshop..</h3><p>please login to continue shopping</p>
+        </div>
+            <div id="m" class="card bg-white p-4">
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert" >
+                            <strong>{{message}}</strong>
+                          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="True">&times;</span>
+                          </button>
+                          
+                        </div>
+                     
+                    {%endfor%}
+                <h3 align="center" class="text-dark m-3">Login</h3>
+                <form action="/login/" method="post">
+                    {% csrf_token %}
+                
+                    <div id="m2" class="form-group "><input type="text" class="form-control p-2" id="un" name="un" placeholder="Enter username or email" onfocus="this.value=''"  required/>
+                    </div>
+                    
+                    <div id="m2" class="form-group "><input type="text" class="form-control p-2" id="p1" name="p1" placeholder="Enter password" onfocus="this.value=''" required/>
+                    </div>
+                    <div  id="fp"align="left" style="margin-top: 3%; "><a href="#">Forgot Password</a></div>
+                        <div id="m2" class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary">Login</button>
+                        </div>
+                       <p align="center"> Don't have account?<a href="/signup">&nbsp;Signup</a></p>
+                </form>
+            </div>
+            </section>
+            <script>
+                setTimeout(()=>{
+                    
+                    $(".alert").alert("close");},1000)
+            </script>
+        {% endblock body %}

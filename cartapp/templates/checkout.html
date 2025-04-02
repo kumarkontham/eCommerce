@@ -1,0 +1,140 @@
+{% extends 'base.html' %}
+{% block title%} checkout {%endblock title%}
+    {%block body%}
+    <main style="width: 100%;margin: 0%;padding: 2%; display: flex;">
+        <div style="justify-content: space-between; background-color: #ffffff; margin-left: 5%; padding: 20px;">
+            {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert" >
+                            <strong>{{message}}</strong>
+                          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="True">&times;</span>
+                          </button>
+                          
+                        </div>
+                     
+                    {%endfor%}
+            <h3 style="margin-bottom: 3%;">Shipping Address</h3>
+            
+            <form method="POST" >
+            {% csrf_token %}
+            <div class="mb-3">
+                <label class="form-label">Full Name:</label>
+                {{ form.name }}
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Email:</label>
+                {{ form.email }}
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Mobile:</label>
+                {{ form.phone }}
+            </div>
+            <div class="mb-3">
+                <label class="form-label">City:</label>
+                {{ form.city }}
+            </div>
+            <div class="mb-3">
+                <label class="form-label">postal_code:</label>
+                {{ form.postal_code }}
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Country:</label>
+                {{ form.country }}
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Address:</label>
+                {{ form.address }}
+            </div>
+            <div class="d-grid gap-2 col-6">
+            <button type="submit" class="btn btn-primary" >Save Address</button>
+            </div>
+        </form>
+        
+            {%for add in shad%}
+            <div class="card" style="padding: 10px; margin: 2%; background-color:#fafafa;">
+            
+            <span>{{add.name}}</span>
+            <span>{{add.email}}</span>
+            <span>{{add.phone}}</span>
+            <span>{{add.city}}</span>
+            <span>{{add.address}}</span>
+            
+            <div style="display: flex; justify-content: space-evenly;"><button type="submit" class="btn btn-danger"> <a href="{%url 'delete_add' add.id %}" style="text-decoration: none; color: #ffffff;">Remove</a></button><button type="submit" class="btn btn-success"> <a href="{%url 'Update_add' add.id%}" style="text-decoration: none; color: #ffffff;">Update</a></button>
+             </div>
+            </div>
+            <hr>
+            {%endfor%}
+        
+        </div>
+        <div class ="check_item" style=" align-items: center;justify-content: space-between; width:30%;padding:2%; background-color: #ffffff;">
+        {%if cart_items%}
+        
+    
+        
+        <h3>Checkout Page:</h3>
+    
+    {%for item in cart_items%}
+
+    
+    <table align="center" style="justify-content: space-between; width:90%;">
+        <thead>
+          <th style=" padding-left: 20px;"></th>
+          <th style=" padding-left: 20px;"></th>
+          <th style=" padding-left: 20px;"></th>
+          
+        </thead>
+        
+    
+    
+    <tr class="pc" style="align-items: center; margin-bottom: 1px;height: 50px; width: 100%;">
+        <td style=" justify-content: space-between;padding: 2px; margin:10% 1% 10% 0%; "><b id="name">{{item.product.name}}</b><p><img  style="width: 50px; height: 90%;"src="{{item.product.image.url}}" alt=""></p></td>
+        
+        </td>
+         
+        <td align="center" style="padding-top: 50px;"><b style="padding-top: 20px;">Quantity</b>
+            <div>
+            
+              <p style="  align-items: center;" id="quantity"  >{{item.quantity}}</p>
+            
+            </div>
+        </td>
+        <td align="center" style=" margin-left:none; padding: 0px;"><b>Price</b>
+            <div >
+            
+             &#8377;<span style="margin: 3px; "id="pp" pid="{{item.product.id}}" name="totalpp">{{item.sub_total}}</span>
+            
+            </div>
+        </td>
+       
+    </tr>
+    
+    </table>
+    {%empty%}
+   
+    {%endfor%}
+    
+
+   
+    <div class="card1" style="width: 90%; height: auto;" >
+        <div class="card-body p-4" style=" padding: px px px px; width: 100%; border-radius: 3%; box-shadow: 0 0 px rgb(64, 62, 62); background-color: #fafafa;">
+        
+        <ul class="list-group" >
+            <li class="list-group-item d-flex ">TotalAmt <b style="margin-left: 50%;">&#8377;<span id="am">{{amount}}</span></b></li>
+            <li class="list-group-item d-flex">Shipping Amt <span style="margin-left: 47%;">&#8377;<span id="sh">{{shipping}}</span></span></li>
+            <li class="list-group-item d-flex">Grand Total<span>(Include GST)</span><b style="margin-left: 3%;">&#8377;<b style="display: inline;" id="ta">{{totalamount}}</b></b></li>
+        </ul> 
+        <div class="d-grid" style="width: 100%;" >
+           <a href="#" class="btn btn-success ">Place order</a>
+            <a href="/cart" class="btn btn-primary ">Back to Cart</a>
+            </div>
+        </div>
+        {%else%}
+            <h4 align="center">Your Cart is empty <a href="/products">Add something...</a> to your cart</h4>
+            {%endif%}
+            </div>
+            </div>
+            </main>
+            <script>setTimeout(()=>{
+                    
+                $(".alert").alert("close");},1000)</script>
+    {%endblock body%}

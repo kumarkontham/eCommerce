@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block title %} Contactus {% endblock title %}
+        {% block body%}
+        
+       
+        <div id="m" class="card bg-secondary  p-4">
+            {% for message in messages %}
+                    <div class="alert alert-{{message.tags}} alert-dismissible fade show" role="alert">
+                        <strong>{{message}}</strong>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    {%endfor%}
+            <h3 align="center" class="text-dark">Contactus</h3>
+            <form action="/contact/" method="post">
+                {% csrf_token %}
+                <label for="name"> Your Name</label>
+                <div class="form-group"><input type="text" class="form-control p-2" id="name" name="name" required/>
+                    </div>
+                <label for="email">Enter Email</label>
+                <div class="form-group"><input type="email" class="form-control p-2" id="email" name="email">
+                    </div>
+                <label for="desc">description</label>
+                <div class="form-group"><input type="password" class="form-control p-2" id="desc" name="desc" required/>
+                </div>
+                    <label for="pn">Phone no</label>
+                    <div class="form-group">
+                <input type="password" class="form-control p-2" id="pn" name="pn" required/>
+                        </div>
+                    <br>
+                    <div class="d-grid gap-2 col-6 mx-auto">
+                    <button type="submit" class="btn btn-dark">Submit Request</button>
+                    </div>
+                    <br>
+                  
+            </form>
+        </div>
+    {% endblock body%}
+   
