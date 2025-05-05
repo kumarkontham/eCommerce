@@ -7,6 +7,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.db.models import Q
 from django.conf import settings
 from .forms import ShippingForm,AddressupdateForm
+from django.views.decorators.http import require_POST
 def Signup_view(request):
     if request.method=='POST':
         username=request.POST['email']
@@ -59,7 +60,9 @@ def Contact_view(request):
         return redirect("/contact/")
     return render(request,"contact.html")
 def base_view(request):
-    return render(request,'base.html')
+    products = Product.objects.all()
+    return render(request, 'base.html', {'products': products})
+    
 def product_list(request):
     products = Product.objects.all()
     return render(request, 'index.html', {'products': products})
@@ -87,6 +90,7 @@ def view_cart(request):
 
     
     return render(request,'cart.html',{"cart_items":cart_items,"amount":amount,"totalamount":totalamount,"shipping":shipping,"value":value})
+
 def add_to_cart(request,product_id):
     product=Product.objects.get(id=product_id)
     cart_item,created=Cartitem.objects.get_or_create(product=product,user=request.user)
@@ -102,6 +106,8 @@ def add_to_cart(request,product_id):
         shipping=0
     cart_item.save()
     messages.success(request,"item added to cart successfully!...")
+    redirect_url = request.META.get('HTTP_REFERER', '/')
+    
     return redirect(product_list)
 def plus_cart(request):
     if request.method=='GET':
@@ -236,7 +242,12 @@ def Update_add(request,id):
     else:
         form = AddressupdateForm(instance=address)
     return render(request,'updateadd.html',{"form":form,"address":address})
-    
+def category_view(request,category_name):
+    products = Product.objects.filter(category=category_name)
+    return render(request, 'category.html', {
+        'products': products,
+        'selected_category': category_name,
+    })
 
 
     

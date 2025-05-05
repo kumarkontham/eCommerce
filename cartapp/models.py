@@ -10,10 +10,18 @@ class Contact(models.Model):
 
 class logo(models.Model):
     image=models.ImageField(upload_to='products/')
+
+CATEGORY_CHOICES=(
+    ('mobiles','mobiles'),
+    ('laptops','laptops'),
+    ('clothing','clothing')
+
+)
 class Product(models.Model):
     name=models.CharField(max_length=60)
     description=models.TextField(null=True)
     price=models.DecimalField(max_digits=10,decimal_places=2)
+    category=models.CharField(choices=CATEGORY_CHOICES,default='mobiles',max_length=10)
     image=models.ImageField(upload_to='products/')
     def __str__(self):
         return (self.name)

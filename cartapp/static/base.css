@@ -1,5 +1,5 @@
 body{
-    background-color: #f6f6f6;
+    background: linear-gradient(to right, #f1f0f0, #efeeee);
 }
 .hea1{
     padding: 10px 10px 10px 0px;
@@ -328,6 +328,14 @@ border-radius: 3px;
 }
 .form-label{
     width: 100px;
+}
+.nav-item{
+    border-radius: 4px;
+    
+
+}
+.nav-item:hover{
+    background-color: #f3f3f3;
 }
 
 
