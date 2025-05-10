@@ -22,6 +22,7 @@ class Product(models.Model):
     description=models.TextField(null=True)
     price=models.DecimalField(max_digits=10,decimal_places=2)
     category=models.CharField(choices=CATEGORY_CHOICES,default='mobiles',max_length=10)
+    stock = models.PositiveIntegerField()
     image=models.ImageField(upload_to='products/')
     def __str__(self):
         return (self.name)

@@ -3,7 +3,7 @@
 margin:10px;
 display: flex;
 flex-wrap: wrap;
-justify-content: space-between;
+justify-content:none;
 }
 #products{
     background: #9b8a8a;
@@ -18,7 +18,7 @@ justify-content: space-between;
     margin:10px;
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content:none;
 }
 #products{
     margin-top: 20px;
@@ -54,4 +54,9 @@ a{
 p{
     margin-bottom: 10px;
     height:65px;
+}
+.product-list>div:hover{
+    transform:scale(1.05);
+    cursor: pointer;
+    box-shadow:0 0 20px black; 
 }

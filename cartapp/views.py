@@ -248,6 +248,9 @@ def category_view(request,category_name):
         'products': products,
         'selected_category': category_name,
     })
+def product_detailed_view(request,product_id):
+    product=Product.objects.get(id=product_id)
+    return render(request,'product_view.html',{'product':product})
 
 
     

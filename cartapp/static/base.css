@@ -337,5 +337,9 @@ border-radius: 3px;
 .nav-item:hover{
     background-color: #f3f3f3;
 }
+.product-container{
+    display: flex;
+   
+}
 
 
