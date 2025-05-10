@@ -94,26 +94,32 @@ def view_cart(request):
 def add_to_cart(request,product_id):
     product=Product.objects.get(id=product_id)
     cart_item,created=Cartitem.objects.get_or_create(product=product,user=request.user)
-
-    cart_item.quantity += 1
-    totalp=product.price *cart_item.quantity
-    print("product total price: ",totalp)
+    if cart_item.quantity>=2:
+        messages.warning(request,"This product cart limit is over...")
+    else:
+        cart_item.quantity += 1
+        totalp=product.price *cart_item.quantity
+        print("product total price: ",totalp)
     
 
-    if cart_item.quantity>=1:
-        shipping=40
-    else:
-        shipping=0
-    cart_item.save()
-    messages.success(request,"item added to cart successfully!...")
-    redirect_url = request.META.get('HTTP_REFERER', '/')
+        if cart_item.quantity>=1:
+            shipping=40
+        else:
+            shipping=0
+        cart_item.save()
+        messages.success(request,"item added to cart successfully!...")
+        redirect_url = request.META.get('HTTP_REFERER', '/')
     
     return redirect(product_list)
 def plus_cart(request):
     if request.method=='GET':
         prod_id=request.GET['prod_id']
         c=Cartitem.objects.get(Q(product=prod_id)&Q(user=request.user))
-        c.quantity+=1
+        if c.quantity>=2:
+            messages.warning(request,"once limited products only purchase")
+        else:
+            c.quantity+=1
+
         c.product.price=c.quantity*c.product.price
         
         c.save()

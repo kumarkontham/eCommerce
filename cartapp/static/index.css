@@ -3,7 +3,7 @@
 margin:10px;
 display: flex;
 flex-wrap: wrap;
-justify-content:none;
+
 }
 #products{
     background: #9b8a8a;
@@ -18,7 +18,7 @@ justify-content:none;
     margin:10px;
     display: flex;
     flex-wrap: wrap;
-    justify-content:none;
+    
 }
 #products{
     margin-top: 20px;
