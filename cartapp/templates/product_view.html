@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title%} checkout {%endblock title%}
+    {%block body%}
+    <div class="product-container" style="width: 100%; padding: 10px;background-color: rgb(255, 255, 255); ">
+        <div class="product-image" style="margin: 1% 0% 0% 10%;">
+            <img src="{{ product.image.url }}" style="height: 95%;" alt="{{ product.name }}">
+        </div>
+        <div class="product-details" style="margin: 0% 15% 0% 0%;">
+            <h2>{{ product.name }}</h2>
+            <h3>{{ product.description }}</h3>
+            <p><strong>Price:</strong> ${{ product.price }}</p>
+            <p><strong>Stock:</strong> {{ product.stock }}</p>
+            {% if product.stock > 0 %}
+                <a class="btn btn-primary" href="{% url 'add_to_cart' product.id %}">Add to Cart</a>
+            {% else %}
+                <button class="btn btn-warning" style="margin-right: 10px;" disabled>Out of Stock</button>
+                <a href="/"><button class="btn btn-primary">Continue shop</button></a>
+                
+            {% endif %}
+        </div>
+    </div>
+{%endblock body%}
