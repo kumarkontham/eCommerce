@@ -8,6 +8,7 @@ from django.db.models import Q
 from django.conf import settings
 from .forms import ShippingForm,AddressupdateForm
 from django.views.decorators.http import require_POST
+from decimal import Decimal
 def Signup_view(request):
     if request.method=='POST':
         username=request.POST['email']
@@ -73,12 +74,15 @@ def view_cart(request):
     totalamount=0
     value=0
     
+    
     for p in cart_items:
         if p.quantity>=1:
             shipping=40
             value=p.quantity*p.product.price
             amount=amount+value
             totalamount=amount+shipping
+            
+            
             
     
             

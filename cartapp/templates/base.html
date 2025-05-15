@@ -40,7 +40,7 @@
            
             <div class="sea1" style="justify-content: flex-start;">
                 <form action="{% url 'search' %}">
-                <input type="text" id="sr1" placeholder=" Search..." name="keyword"><button style="background-color: rgb(71, 71, 248);  border-radius: 1px 4px 4px 1px; padding: 3.7px; color: white;"><i class="fa fa-search"></i></button>
+                <input type="text" id="sr1" placeholder= " &nbsp;Search..." name="keyword" style="border-radius: 20px 0px 0px 20px; border: 1px solid #d1cbcb; align-content: center;height: 38px;"><button style="background-color: rgb(71, 71, 248);  border-radius: 1px 20px 20px 1px; padding: 4px;width: 70px; color: white;height: 38px;"><i class="fa fa-search"></i></button>
                     </form>
             
                <div id="suggestions" style="margin: 0.3% 0% 0% 0%;">
@@ -145,7 +145,52 @@
                     
             $(".alert").alert("close");},1000)</script>
             {%endblock body%}
-           <footer class="footer">hiiiggydsud</footer>
+          
+<footer class="ecommerce-footer">
+  <div class="footer-container">
+    <div class="footer-section">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="/about">About Us</a></li>
+        <li><a href="/contact">Contact</a></li>
+        <li><a href="/store-locator">Store Locator</a></li>
+      </ul>
+    </div>
+    
+    <div class="footer-section">
+      <h4>Categories</h4>
+      <ul>
+        <li><a href="/electronics">Electronics</a></li>
+        <li><a href="/fashion">Fashion</a></li>
+        <li><a href="/sports">Sports</a></li>
+      </ul>
+    </div>
+    <div class="footer-section">
+      <h4>Legal</h4>
+      <ul>
+        <li><a href="/privacy-policy">Privacy Policy</a></li>
+        <li><a href="/terms-conditions">Terms & Conditions</a></li>
+        
+      </ul>
+    </div>
+    
+    <div class="footer-section social-media">
+      <h4>Follow Us</h4>
+      <a href="#" aria-label="Facebook"><img src="{%static 'images/facebook.png' %}" style="height: 30px;width: 30px;background-color: #d7d1d1; border-radius: 50%;"></a>
+      <a href="https://instagram.com/yourbrand" aria-label="Instagram"><img src="{%static 'images/instalogo.png' %}" style="height: 30px;width: 30px;background-color: #d7d1d1; border-radius: 50%;"></a>
+      <a href="https://twitter.com/yourbrand" aria-label="Twitter"><img src="{%static 'images/twitterlogo.png' %}" style="height: 30px;width: 30px;background-color: #d7d1d1; border-radius: 70%;"></a>
+      <a href="https://linkedin.com/company/yourbrand" aria-label="LinkedIn"><img src="{%static 'images/linkedin.png' %}" style="height: 30px;width: 30px;background-color: #d7d1d1; border-radius: 50%;"></a>
+    </div>
+    
+    
+    
+    
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2025 | All rights reserved.</p>
+  </div>
+</footer>
+
         
             <script>
                 document.getElementById("sr1").addEventListener("keyup", function() {
