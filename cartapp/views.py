@@ -62,13 +62,46 @@ def Contact_view(request):
     return render(request,"contact.html")
 def base_view(request):
     products = Product.objects.all()
-    return render(request, 'base.html', {'products': products})
+    cart_items=Cartitem.objects.filter(user=request.user)
+    val=0
+    
+    amount=0
+    shipping=0
+    
+    value=0
+    
+    
+    for p in cart_items:
+        if p.quantity>=1:
+            val=val+p.quantity
+            
+            
+            
+            
+    
+            
+        else:
+            shipping=0
+            
+
+    
+
+    
+    return render(request, 'base.html', {'products': products,"val":val})
     
 def product_list(request):
+    val=0
     products = Product.objects.all()
-    return render(request, 'index.html', {'products': products})
+    if 'value' in request.GET:
+        val=request.GET['value']
+        if val:
+            cart_items=Cartitem.objects.filter(user=request.user)
+            val=cart_items.count()
+    return render(request, 'index.html', {'products': products,"val":val})
 def view_cart(request):
     cart_items=Cartitem.objects.filter(user=request.user)
+    val=0
+    
     amount=0
     shipping=0
     totalamount=0
@@ -77,6 +110,7 @@ def view_cart(request):
     
     for p in cart_items:
         if p.quantity>=1:
+            val=val+p.quantity
             shipping=40
             value=p.quantity*p.product.price
             amount=amount+value
@@ -93,11 +127,18 @@ def view_cart(request):
             totalamount=amount
 
     
-    return render(request,'cart.html',{"cart_items":cart_items,"amount":amount,"totalamount":totalamount,"shipping":shipping,"value":value})
+    return render(request,'cart.html',{"cart_items":cart_items,"amount":amount,"totalamount":totalamount,"shipping":shipping,"value":value,"val":val})
 
 def add_to_cart(request,product_id):
     product=Product.objects.get(id=product_id)
     cart_item,created=Cartitem.objects.get_or_create(product=product,user=request.user)
+    if 'value' in request.GET:
+        val=request.GET['value']
+        if val:
+            val=val+cart_item.quantity
+
+
+
     if cart_item.quantity>=2:
         messages.warning(request,"This product cart limit is over...")
     else:
@@ -114,7 +155,7 @@ def add_to_cart(request,product_id):
         messages.success(request,"item added to cart successfully!...")
         redirect_url = request.META.get('HTTP_REFERER', '/')
     
-    return redirect(product_list)
+    return redirect(base_view)
 def plus_cart(request):
     if request.method=='GET':
         prod_id=request.GET['prod_id']
@@ -267,4 +308,4 @@ def product_detailed_view(request,product_id):
 
 
 
-# Create your views here.
+
