@@ -2,14 +2,17 @@ body{
     background: linear-gradient(to right, #f1f0f0, #efeeee);
 }
 .hea1{
-    padding: 10px 10px 10px 0px;
+    
+    padding: 1px 10px 10px 1px;
     display: block;
     width: 100%;
-    height: 10%;
+    height: 3%;
     display: flex;
     background-color: #ffffff;
-    position: relative;
+    position: sticky;
+    top: 0;
     justify-content: space-between;
+    z-index: 10;
     
     
 
@@ -18,8 +21,7 @@ body{
 #sp:hover{
     background-color: #272323;
     cursor: pointer;
-    padding: 10px;
-
+    
 }
 #m{
     width: 30%;
@@ -58,9 +60,7 @@ h1{
     display: flex;
     width: 80%;
 }
-.hea1{
-    height: 10%;
-}
+
 
 li a{
     
@@ -74,10 +74,11 @@ ul{
     
     list-style-type: none;
     display: flex;
-   
-    
     justify-content: space-between;
 
+}
+ul:hover{
+    border-color: 2px solid #2a2a2a;
 }
 li a:hover{
     background-color: #f1f1f1;
@@ -90,9 +91,7 @@ input{
     
     border-color: 2px solid #2a2a2a;
     background-color:  #fcfcfc;
-    outline: none;
-    
-    
+    outline: none;   
 }
 input:hover{
     background-color: #ffff;
@@ -108,10 +107,6 @@ input:hover{
     border-radius: 0.5px 5px 5px 0.5px;
     margin: px;
     text-align: center;
-    
-    
-    
-
 
 }
 .sea1 i:hover{
@@ -158,9 +153,6 @@ background-color: #f1f1f1;
 #dt a:hover{
 background-color: #f1f1f1;
 }
-.hea1{
-    height: 10%;
-}
 
 li a{
     
@@ -175,9 +167,8 @@ ul{
     list-style-type: none;
     display: flex;
    
-    
+    border-color: 2px solid #2a2a2a;
     justify-content: space-between;
-
 }
 li a:hover{
     background-color: #f1f1f1;
@@ -273,7 +264,7 @@ background-color: #f1f1f1;
 #suggestions {
     position: absolute;
     background: rgb(255, 255, 255);
-    
+    padding: none;
     max-height: 150px;
     overflow-y: auto;
     width:29.5%
@@ -281,7 +272,7 @@ background-color: #f1f1f1;
 }
 
 #suggestions div {
-    padding: 8px;
+    padding: 1px;
     cursor: pointer;
     
 }
@@ -289,9 +280,19 @@ background-color: #f1f1f1;
 #suggestions div:hover {
     background: #ffffff;
     
+    
 }
 #sp{
-    width: 100%;
+    
+    position: absolute;
+    width:30%;
+    padding: 10px;
+    border-radius: 10px;
+
+}
+#sp:hover{
+    border-color: 5px solid #444343;
+    padding: 10px;
 }
 #sp:hover{
     background-color: #f1f1f1;
@@ -312,7 +313,8 @@ border-radius: 3px;
 .footer { 
     background-color: #ffffff;
     width: 100%;
-    
+    position: sticky;
+    bottom: 0;
     
     margin: 3% 0.5% 0% 0.5% ;
     align-items: center;
@@ -469,3 +471,17 @@ li:hover{
         color: #e1dfdf;
 
     }
+.sug-items{
+    width: 100%;
+   border-color: 2px solid #2a2a2a;
+    padding: 10px;
+     
+    display: inline-block;
+    display: flex;
+    gap: 10px;
+    
+    
+}
+.sug-items:hover{
+    background-color: #f5faff;
+}

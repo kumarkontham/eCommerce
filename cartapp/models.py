@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.urls import reverse
 class Contact(models.Model):
     name=models.CharField(max_length=40)
     email=models.EmailField()
@@ -26,6 +27,8 @@ class Product(models.Model):
     image=models.ImageField(upload_to='products/')
     def __str__(self):
         return (self.name)
+    def get_absolute_url(self):
+        return reverse('product_detailed_view', kwargs={'product_id': self.id})
 class Cartitem(models.Model):
     product=models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity=models.PositiveIntegerField(default=0)

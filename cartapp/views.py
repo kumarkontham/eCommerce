@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect,HttpResponse
+from django.shortcuts import render,redirect,HttpResponse,get_object_or_404
 from django.http import JsonResponse
 from cartapp.models import Product,Cartitem,Contact,ShippingAddress
 from django.contrib.auth.models import User
@@ -9,6 +9,7 @@ from django.conf import settings
 from .forms import ShippingForm,AddressupdateForm
 from django.views.decorators.http import require_POST
 from decimal import Decimal
+from django.urls import reverse
 def Signup_view(request):
     if request.method=='POST':
         username=request.POST['email']
@@ -63,6 +64,7 @@ def Contact_view(request):
 def base_view(request):
     products = Product.objects.all()
     cart_items=Cartitem.objects.filter(user=request.user)
+    cart_product_ids = set(cart_items.values_list('product_id', flat=True))
     val=0
     
     amount=0
@@ -72,32 +74,31 @@ def base_view(request):
     
     
     for p in cart_items:
-        if p.quantity>=1:
-            val=val+p.quantity
+        val=val+1
             
             
             
             
     
             
-        else:
-            shipping=0
+        
             
 
     
 
     
-    return render(request, 'base.html', {'products': products,"val":val})
+    return render(request, 'base.html', {'products': products,"val":val,"cart_ids":cart_product_ids})
     
 def product_list(request):
     val=0
     products = Product.objects.all()
+    cart_items=Cartitem.objects.filter(user=request.user)
     if 'value' in request.GET:
         val=request.GET['value']
         if val:
             cart_items=Cartitem.objects.filter(user=request.user)
             val=cart_items.count()
-    return render(request, 'index.html', {'products': products,"val":val})
+    return render(request, 'index.html', {'products': products,"val":val,"cart_items":cart_items})
 def view_cart(request):
     cart_items=Cartitem.objects.filter(user=request.user)
     val=0
@@ -110,7 +111,7 @@ def view_cart(request):
     
     for p in cart_items:
         if p.quantity>=1:
-            val=val+p.quantity
+            val=val+1
             shipping=40
             value=p.quantity*p.product.price
             amount=amount+value
@@ -135,7 +136,7 @@ def add_to_cart(request,product_id):
     if 'value' in request.GET:
         val=request.GET['value']
         if val:
-            val=val+cart_item.quantity
+            val=val+1
 
 
 
@@ -227,12 +228,20 @@ def remove(request,id):
     return redirect(view_cart)
 def product_search(request):
     query = request.GET.get('query', '')
-    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':  # Check if the request is AJAX
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':  # AJAX request check
         products = Product.objects.filter(name__icontains=query) if query else []
-        data = [{'image_url':product.image.url if product.image.url else '' , 'name': product.name, 'price': str(product.price)} for product in products]
+        data = [{
+            'image_url': product.image.url if product.image else '',
+            'name': product.name,
+            'price': str(product.price),
+            'product_url': reverse('product_detailed_view',kwargs={'product_id':product.id}),
+            
+            
+        } for product in products]
+        
         return JsonResponse({'products': data})
 
-    return render(request, '/search') 
+    return render(request, 'product_view.html') 
 def search(request):
     if 'keyword' in request.GET:
         keyword=request.GET['keyword']
