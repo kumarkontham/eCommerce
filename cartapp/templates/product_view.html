@@ -2,8 +2,8 @@
 {% block title%} Product_Details {%endblock title%}
     {%block body%}
     <div class="product-container" style="width: 100%; padding: 10px;background-color: rgb(255, 255, 255); ">
-        <div class="product-image" style="margin: 1% 0% 0% 10%;">
-            <img src="{{ product.image.url }}" style="height: 95%;" alt="{{ product.name }}">
+        <div class="product-image" style="margin: 1% 0% 0% 10%; height: 100%;width: auto;">
+            <img src="{{ product.image.url }}" style="height: 95%;max-width: 50%;" alt="{{ product.name }}">
         </div>
         <div class="product-details" style="margin: 0% 15% 0% 0%;">
             <h2>{{ product.name }}</h2>

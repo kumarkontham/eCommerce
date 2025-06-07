@@ -64,7 +64,7 @@ h1{
 
 li a{
     
-    margin:8px;
+    margin:8px 8px 1px 8px;
     text-decoration: none;
     padding: 10px;
     color: #000000;
@@ -81,7 +81,7 @@ ul:hover{
     border-color: 2px solid #2a2a2a;
 }
 li a:hover{
-    background-color: #f1f1f1;
+    background-color: #fcfcfc;
     border-radius: 3px;
 }
 input{
@@ -484,4 +484,48 @@ li:hover{
 }
 .sug-items:hover{
     background-color: #f5faff;
+}
+.hover-underline{
+    margin-top: 2.1%;
+}
+
+.hover-underline::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(to right, #4a5152, #45e3e3);
+  bottom: 1px;
+  left: 0;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s ease-out;
+}
+
+.hover-underline::before {
+  top: -5px;
+  transform-origin: left;
+}
+
+.hover-underline:hover::after,
+.hover-underline:hover::before {
+  transform: scaleX(1);
+}
+#cart:hover{
+    position: relative;
+    background-color: #ffffff;
+    position: relative;
+    
+    
+}
+#cart{
+    padding: 0px 10px 0px 10px;
+}
+#cart a:hover{
+    background-color: #ffffff;
+}
+li a{
+    font-family: system-ui;
+    font-size: larger;
+    font-weight: 500;
 }

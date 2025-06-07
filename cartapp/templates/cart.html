@@ -4,20 +4,15 @@
     
         <body style="background-color: #fafafa;">
             
-            
+            <div id='alert-container' style="position: relative;"></div>
             <main style="display: flex;width: 100%;margin: 0%;padding: 0%;">
                 
-                <div class ="product_item">
-                    {% for message in messages %}
-                        <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert" >
-                            <strong>{{message}}</strong>
-                          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="True">&times;</span>
-                          </button>
-                          
-                        </div>
-                     
-                    {%endfor%}
+                
+                <div class ="product_item" style="position: relative;">
+                    
+                    
+                    
+                    
                     
                 {%if cart_items%}
                 
@@ -29,41 +24,40 @@
             {%for item in cart_items%}
 
             
-            <table align='center' style="justify-content: space-between;">
-                <thead>
-                  <th style="align-items: center; padding-left: 20px;"></th>
-                  <th style=" padding-left: 20px;"></th>
-                  <th style="align-items: center; padding-left: 20px;"></th>
-                  <th style="align-items: center; padding-left: 20px;"></th>
-                </thead>
+            <table style="justify-content: space-between;">
                 
-            
-            
-            <tr class="pc">
+            <tr class="pc" style="display: flex;justify-content: space-evenly;align-items: center;width: 100%;">
                 <td style=" justify-content: space-between; display: flex;padding: 2px; margin:10% 5% 10% 0%; "><div class="trash" style=" margin: 0% 2% 2% 0%;padding: 30px 2px 10px 0px;width: 5%; " pid="{{item.product.id}}">
                     <a style="color: #040000;" href="{%url 'remove' item.id %}"><span  id="tc" class="glyphicon glyphicon-trash"></span></a></div><p><img  style="width: 80px; height: 80px;"src="{{item.product.image.url}}" alt=""></p></td>
-                <td style="align-items: left; padding: left 0;;margin: 1px;align-content: center;"><b>{{item.product.name}}</b>
-                 <p id="main" style="margin-top: 0%;">{{item.product.description}}</p></td>
-                 
+                <td style="align-items: left; padding: left 0;;margin: 1px;align-content: center;position: relative; "><b>{{item.product.name}}</b>
+                 <p id="main" style="margin-top: 0%;position: sticky;"><b>&#8377;</b>{{item.product.price}}</p></td>
+                 <div style="display: flex; margin: 1px 10px 10px 1px;">
                 <td style=" align-items: center; margin-left:none;"><b style="margin:1%;">Quantity:</b>
-                    <div style="display: flex; margin: 1px 10px 10px 1px;">
-                    <p style="margin:3px; height: 50%;" class="minus-cart btn bg-light " pid="{{item.product.id}}"><span class="glyphicon glyphicon-minus"></span></p>
+                    <div style="display: flex;justify-content: space-around;">
+                        
+                        
+                    <button type="button" style="margin:3px; height: 50%;" class="minus-cart btn bg-light " pid="{{item.product.id}}" {% if item.quantity == 0 %}disabled{% endif %}><span class="glyphicon glyphicon-minus"></span></button>
+                    
                       <p style="margin: 3px; padding-top: 10px;" id="quantity" class="glyphicon" >{{item.quantity}}</p>
-                    <p style="margin: 3px; height: 50%;" class="plus-cart btn bg-light" pid="{{item.product.id}}"><span class="glyphicon glyphicon-plus"></span></p>
+                    <p style="margin: 3px; height: 50%;margin-right: 10%;" class="plus-cart btn bg-light" pid="{{item.product.id}}"><span class="glyphicon glyphicon-plus"></span></p>
+                    <b>&#8377;</b><strong id="pp" name="totalpp" style="display: block;">{{item.sub_total}}</strong><p>(each one&nbsp;{{item.product.price}}/-)</p>
+                    
                     </div>
                 </td>
-                <td >&#8377;<span id="pp" pid="{{item.product.id}}" name="totalpp">{{item.sub_total}}</span><p>(each one&nbsp;{{item.product.price}}/-)</p>
-                </td>
+                
+                 </div>
             </tr>
             
             <hr>
             </table>
+            
             {%empty%}
            
             {%endfor%}
             
         
             </div>
+            
             <div class="card1" >
                 <div class="card-body p-4" style=" padding: px px px px; width: 100%; border-radius: 3%; box-shadow: 0 0 px rgb(64, 62, 62); background-color: #fafafa;">
                 
@@ -86,9 +80,16 @@
             
             <script>
                 $('.plus-cart').click (function(){
+                    let btn = $(this);
+                    let prodId = btn.attr('pid');
                     var id=$(this).attr('pid').toString();
+                    console.log(this.parentNode)
                     var pc=this.parentNode.children[1]
+                    console.log(pc)
+                    var ps=this.parentNode.children[4]
+                    console.log(ps)
                     var tp=document.getElementById("pp")
+                    let minusBtn = $('.minus-cart[pid="' + prodId + '"]');
 
                     $.ajax({
                         type:"GET",
@@ -99,10 +100,40 @@
                         success:function(data){
                             
                             pc.innerText=data.quantity,
-                            tp.innerText=data.sub_total,
+                            ps.innerText=data.sub_total,
                             document.getElementById("am").innerText=data.amount
                             document.getElementById("sh").innerText=data.shipping
                             document.getElementById("ta").innerText=data.totalamount
+                            var alertBox = document.createElement('div');
+                            alertBox.className = 'alert alert-dark pop-up';
+                            alertBox.role = 'alert';
+                            
+                           
+                            alertBox.innerHTML = `<strong>${data.message}</strong>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="True">&times;</span>
+                          </button>`;
+
+
+            // Insert alert into the DOM
+                        var alertContainer = document.getElementById('alert-container');
+                        
+                        // Clear any existing alerts
+                        alertContainer.appendChild(alertBox);
+
+                        // Automatically remove the alert after 3 seconds
+                        setTimeout(function() {
+                            alertBox.classList.remove('show');
+                            alertBox.classList.add('hide');
+                            // Optionally, remove the alert from the DOM after the fade-out transition
+                            setTimeout(function() {
+                                alertBox.remove();
+                            }, 100); // Adjust this timeout to match the CSS transition duration
+                        }, 1000); // 3000 milliseconds = 3 seconds
+                        if (data.quantity > 0) {
+          minusBtn.prop('disabled', false);
+        }
+                           
                         }
                     })
 
@@ -110,9 +141,12 @@
                 })
                 
             $('.minus-cart').click (function(){
+                    let btn = $(this);
                     var id=$(this).attr('pid').toString();
                     var mc=this.parentNode.children[1]
-                    
+                    var ms=this.parentNode.children[4]
+                    let minusBtn = btn;
+                    minusBtn.prop('disabled', true);
                     $.ajax({
                         type:"GET",
                         url:"/minuscart",
@@ -122,18 +156,24 @@
                         success:function(data){
                             
                             mc.innerText=data.quantity,
+                            ms.innerText=data.sub_total,
                             
-                            document.getElementById("pp").innerText=data.sub_total
                             document.getElementById("am").innerText=data.amount
                             document.getElementById("sh").innerText=data.shipping
                             document.getElementById("ta").innerText=data.totalamount
-                        }
+                            minusBtn.prop('disabled', data.quantity <= 0);
+                            
+                        },
+           
+                        
+    
+                       
                     })
 
 
             })
 
             </script>
-        
+            
          </body>
 {%endblock body%}

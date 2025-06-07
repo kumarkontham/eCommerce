@@ -110,7 +110,7 @@ def view_cart(request):
     
     
     for p in cart_items:
-        if p.quantity>=1:
+        if p.quantity>=0:
             val=val+1
             shipping=40
             value=p.quantity*p.product.price
@@ -161,14 +161,28 @@ def plus_cart(request):
     if request.method=='GET':
         prod_id=request.GET['prod_id']
         c=Cartitem.objects.get(Q(product=prod_id)&Q(user=request.user))
-        if c.quantity>=2:
-            messages.warning(request,"once limited products only purchase")
+        if c.product.price>100000:
+            if c.quantity>=2:
+                msg='Sorry! 2 items only purchase on each order....'
+            else:
+                c.quantity+=1
+                msg="item quantity hass been updated...."
+                
+
         else:
-            c.quantity+=1
+            if c.quantity>=5:
+                msg='Sorry! 5 items only purchase on each order....'
+            else:
+                 c.quantity+=1
+                 msg="item quantity hass been updated...."
+                 
+
+
 
         c.product.price=c.quantity*c.product.price
         
         c.save()
+        
         
         user=request.user
         cart=Cartitem.objects.filter(user=user)
@@ -183,12 +197,16 @@ def plus_cart(request):
             elif amount<1 and amount==0:
                 shipping=0
                 totalamount=amount
+            
+        
+            
             data={
                 "sub_total":c.product.price,
                 "quantity":c.quantity,
                 "amount":amount,
                 "shipping":shipping,
                 "totalamount":totalamount,
+                "message":msg
 
         }
         return JsonResponse(data)
@@ -248,11 +266,16 @@ def search(request):
         if keyword:
             products=Product.objects.filter(Q(name__icontains=keyword)|Q(description__icontains=keyword))
             count=products.count()
+        if keyword=='':
+            return redirect(base_view)
         
     return render(request,'search.html',{'products':products,'count':count})
 def checkout_view(request):
+    val=0
     cart_items=Cartitem.objects.filter(user=request.user)
     shad=ShippingAddress.objects.filter(user=request.user)
+    for i in cart_items:
+        val+=1
     amount=0
     shipping=0
     totalamount=0
@@ -283,7 +306,7 @@ def checkout_view(request):
     
 
     
-    return render(request,'checkout.html',{"cart_items":cart_items,"amount":amount,"totalamount":totalamount,"shipping":shipping,"value":value,"form": shipping_form,"shad":shad})
+    return render(request,'checkout.html',{"cart_items":cart_items,"amount":amount,"totalamount":totalamount,"shipping":shipping,"value":value,"form": shipping_form,"shad":shad,"val":val})
     
 def delete_add(request,id):
     s=ShippingAddress.objects.get(id=id)
@@ -303,14 +326,26 @@ def Update_add(request,id):
         form = AddressupdateForm(instance=address)
     return render(request,'updateadd.html',{"form":form,"address":address})
 def category_view(request,category_name):
+    val=0
     products = Product.objects.filter(category=category_name)
+    cart_items=Cartitem.objects.filter(user=request.user)
+    cart_product_ids = set(cart_items.values_list('product_id', flat=True))
+    for p in cart_items:
+        val=val+1
+            
     return render(request, 'category.html', {
         'products': products,
         'selected_category': category_name,
+        "cart_ids":cart_product_ids,
+        'val':val
     })
 def product_detailed_view(request,product_id):
+    val=0
     product=Product.objects.get(id=product_id)
-    return render(request,'product_view.html',{'product':product})
+    cart_items=Cartitem.objects.filter(user=request.user)
+    for i in cart_items:
+        val+=1
+    return render(request,'product_view.html',{'product':product,"val":val})
 
 
     
