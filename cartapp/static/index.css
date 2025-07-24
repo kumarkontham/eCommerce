@@ -7,16 +7,17 @@ flex-wrap: wrap;
 }
 #products{
     background: #9b8a8a;
-    width:23%;
+    width:21%;
     height:auto;
     padding-top:20px;
-    padding-bottom: 20px;
+    padding-bottom: 5px;
 }
 .product-list{
     padding-right:25px; ;
     
     margin:10px;
     display: flex;
+    gap: 5px;
     flex-wrap: wrap;
     
 }

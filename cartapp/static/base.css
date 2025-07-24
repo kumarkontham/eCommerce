@@ -529,3 +529,6 @@ li a{
     font-size: larger;
     font-weight: 500;
 }
+#pimage:hover{
+    background-color: white;
+}

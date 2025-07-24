@@ -62,32 +62,19 @@ def Contact_view(request):
         return redirect("/contact/")
     return render(request,"contact.html")
 def base_view(request):
-    products = Product.objects.all()
-    cart_items=Cartitem.objects.filter(user=request.user)
-    cart_product_ids = set(cart_items.values_list('product_id', flat=True))
-    val=0
-    
-    amount=0
-    shipping=0
-    
-    value=0
-    
-    
-    for p in cart_items:
-        val=val+1
-            
-            
-            
-            
-    
-            
+    if request.user.is_authenticated:
+        products = Product.objects.all()
+        cart_items=Cartitem.objects.filter(user=request.user)
+        cart_product_ids = set(cart_items.values_list('product_id', flat=True))
+        val=0
+        for p in cart_product_ids:
+            val=val+1
+        return render(request, 'base.html', {'products': products,"val":val,"cart_ids":cart_product_ids})
+    else:
+        val=0
+        products = Product.objects.all()
         
-            
-
-    
-
-    
-    return render(request, 'base.html', {'products': products,"val":val,"cart_ids":cart_product_ids})
+        return render(request, 'base.html', {'products': products,"val":val})
     
 def product_list(request):
     val=0
@@ -156,7 +143,7 @@ def add_to_cart(request,product_id):
         messages.success(request,"item added to cart successfully!...")
         redirect_url = request.META.get('HTTP_REFERER', '/')
     
-    return redirect(base_view)
+    return redirect(view_cart)
 def plus_cart(request):
     if request.method=='GET':
         prod_id=request.GET['prod_id']
@@ -328,10 +315,11 @@ def Update_add(request,id):
 def category_view(request,category_name):
     val=0
     products = Product.objects.filter(category=category_name)
-    cart_items=Cartitem.objects.filter(user=request.user)
-    cart_product_ids = set(cart_items.values_list('product_id', flat=True))
-    for p in cart_items:
-        val=val+1
+    if request.user:
+        cart_items=Cartitem.objects.filter(user=request.user)
+        cart_product_ids = set(cart_items.values_list('product_id', flat=True))
+        for p in cart_items:
+            val=val+1
             
     return render(request, 'category.html', {
         'products': products,
@@ -342,10 +330,13 @@ def category_view(request,category_name):
 def product_detailed_view(request,product_id):
     val=0
     product=Product.objects.get(id=product_id)
-    cart_items=Cartitem.objects.filter(user=request.user)
-    for i in cart_items:
-        val+=1
-    return render(request,'product_view.html',{'product':product,"val":val})
+    
+    if request.user.is_authenticated:
+        cart_items=Cartitem.objects.filter(user=request.user)
+        cart_product_ids = set(cart_items.values_list('product_id', flat=True))
+        for i in cart_items:
+            val+=1
+    return render(request,'product_view.html',{'product':product,"val":val,"cart_ids":cart_product_ids})
 
 
     
