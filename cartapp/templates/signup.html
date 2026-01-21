@@ -1,8 +1,13 @@
 {% extends 'base.html' %}
 {% block title %} Signup {% endblock title %}
         {% block body%}
-        <main style="width: 80%;  margin: 3% 15% 10% 20%;">
-        <div  id="m" class="card bg-light p-4 ">
+        <section id="sec">
+        <div id="hed2" class="card" style="margin: 0%;">
+            {% load static %}
+            <img src="{%static 'images/shoplogo.jpg' %}" style="margin: 2%;border-radius: 5px;">
+        <h3>wellcome to Onlineshop..</h3><p>please register to create account</p>
+        </div>
+        <div id="m" class="card bg-white p-4" style="height: 440px; margin: 0%;">
             {% for message in messages %}
             <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert" >
                 <strong>{{message}}</strong>
@@ -15,11 +20,11 @@
             <h3 align="center" class="text-dark">Signup</h3>
             <form action="/signup/" method="post">
                 {% csrf_token %}
-                <label for="un"> Enter Username</label>
-                <div class="form-group" id="un"><input type="text" class="form-control p-2" id="un" name="un" required/>
+                <label for="un"> Enter Username </label>
+                <div class="form-group" id="un"><input type="text" class="form-control p-2" id="un" name="un" placeholder="Ex:xyz" required/>
                     </div>
                 <label for="email"> Enter email</label>
-                <div class="form-group"><input type="email" class="form-control p-2" id="email" name="email" required/>
+                <div class="form-group" id="email"><input type="email" class="form-control p-2" id="email" name="email" placeholder="Ex:xyx@gmail.com" required/>
                     </div>
                 <label for="p1"> Create Password</label>
                 <div class="form-group"><input type="password" class="form-control p-2" id="pa1" name="p1" required/>
@@ -36,7 +41,7 @@
                    <p align="center"> Already User?<a href="/login/">&nbsp;Login</a></p>
             </form>
         </div>
-    </main>
+    </section>
         <script>
             
    

@@ -1,3 +1,4 @@
+import re
 from django.shortcuts import render,redirect,HttpResponse,get_object_or_404
 from django.http import JsonResponse
 from cartapp.models import Product,Cartitem,Contact,ShippingAddress
@@ -12,7 +13,7 @@ from decimal import Decimal
 from django.urls import reverse
 def Signup_view(request):
     if request.method=='POST':
-        username=request.POST['email']
+        username=request.POST['un']
         email=request.POST['email']
         password=request.POST['p1']
         confirm=request.POST['p2']
@@ -20,29 +21,67 @@ def Signup_view(request):
         if password != confirm:
             messages.warning(request,"Password not matching")
             return render(request,"signup.html")
+        if len(password) < 8:
+            messages.warning(request, "Password must be at least 8 characters long")
+            return render(request, "signup.html")
+
+        # 3️⃣ Uppercase letter check
+        if not re.search(r"[A-Z]", password):
+            messages.warning(request, "Password must contain at least one uppercase letter")
+            return render(request, "signup.html")
+
+        # 4️⃣ Lowercase letter check
+        if not re.search(r"[a-z]", password):
+            messages.warning(request, "Password must contain at least one lowercase letter")
+            return render(request, "signup.html")
+
+        # 5️⃣ Number check
+        if not re.search(r"\d", password):
+            messages.warning(request, "Password must contain at least one number")
+            return render(request, "signup.html")
+
+        # 6️⃣ Special character check
+        if not re.search(r"[@$!%*?&#]", password):
+            messages.warning(
+                request,
+                "Password must contain at least one special character (@$!%*?&#)"
+            )
+            return render(request, "signup.html")
         try :
-            if User.objects.get(username=email):
+            if User.objects.get(email=email):
                 messages.warning(request,"Email already exist")
                 return render(request,"signup.html")
         except Exception as identifier:
             pass
-        user=User.objects.create_user(email,username,password)
+        user=User.objects.create_user(username,email,password)
         user.save()
         messages.success(request,"Details added successfully..")
     return render(request,'signup.html')
 def Login_view(request):
     if request.method=="POST":
-        email=request.POST['un']
+        ema=request.POST['un']
         pass1=request.POST['p1']
-        myuser=authenticate(username=email ,password=pass1)
-        if myuser is not None:
-            login(request,myuser)
+        try:
+            user_obj = User.objects.get(email=ema)
+            user = authenticate(
+                request,
+                username=user_obj.username,
+                password=pass1
+            )
+        except User.DoesNotExist:
+            messages.warning(request,"Invalid username or Password")
+            return render(request,"login.html")
+        # user=authenticate(username=ema , password=pass1)
+        if user is not None:
+            login(request,user)
             messages.success(request,"Login Success")
             return redirect("/")
         else:
             messages.warning(request,"Invalid username or Password")
             return render(request,"login.html")
     return render(request,'login.html')
+def test_log(request):
+    return render(request,'test.html')
 def logout_view(request):
     logout(request)
     
@@ -102,12 +141,7 @@ def view_cart(request):
             shipping=40
             value=p.quantity*p.product.price
             amount=amount+value
-            totalamount=amount+shipping
-            
-            
-            
-    
-            
+            totalamount=amount+shipping 
         else:
             shipping=0
             value=p.quantity*p.product.price
@@ -315,18 +349,24 @@ def Update_add(request,id):
 def category_view(request,category_name):
     val=0
     products = Product.objects.filter(category=category_name)
-    if request.user:
+    if request.user.is_authenticated:
         cart_items=Cartitem.objects.filter(user=request.user)
         cart_product_ids = set(cart_items.values_list('product_id', flat=True))
         for p in cart_items:
             val=val+1
             
-    return render(request, 'category.html', {
+        return render(request, 'category.html', {
         'products': products,
         'selected_category': category_name,
         "cart_ids":cart_product_ids,
         'val':val
-    })
+        })
+    else:   
+        return render(request, 'category.html', {
+        'products': products
+        })
+        
+    
 def product_detailed_view(request,product_id):
     val=0
     product=Product.objects.get(id=product_id)
@@ -336,7 +376,9 @@ def product_detailed_view(request,product_id):
         cart_product_ids = set(cart_items.values_list('product_id', flat=True))
         for i in cart_items:
             val+=1
-    return render(request,'product_view.html',{'product':product,"val":val,"cart_ids":cart_product_ids})
+        return render(request,'product_view.html',{'product':product,"val":val,"cart_ids":cart_product_ids})
+    else:
+        return render(request,'product_view.html',{'product':product})
 
 
     

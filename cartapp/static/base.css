@@ -49,16 +49,18 @@ h1{
 }
 #hed2{
     width: 50%;
-    height: 70%;
+    height: 100%;
     padding: 2px;
     background-color: #f6f6f6;
     align-items: center;
-    margin: 13% 0% 10% 2%;
+    margin: 5% 2% 10% 2%;
     border: none;
 }
 #sec{
     display: flex;
-    width: 80%;
+    width: 100%;
+    margin: 5%;
+
 }
 
 

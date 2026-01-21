@@ -2,10 +2,12 @@
 {% block title %} Login {% endblock title %}
         {% block body%}
         <section id="sec">
-        <div id="hed2" class="card" >
+        <div id="hed2" class="card" style="margin: 0%;">
+            {% load static %}
+            <img src="{%static 'images/shoplogo.jpg' %}" style="margin: 2%;border-radius: 5px;">
         <h3>wellcome to Onlineshop..</h3><p>please login to continue shopping</p>
         </div>
-            <div id="m" class="card bg-white p-4">
+            <div id="m" class="card bg-white p-4" style="height: 440px; margin: 0%;">
                     {% for message in messages %}
                         <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert" >
                             <strong>{{message}}</strong>
@@ -19,10 +21,10 @@
                 <h3 align="center" class="text-dark m-3">Login</h3>
                 <form action="/login/" method="post">
                     {% csrf_token %}
-                
+                    <label for="un"> Enter Username </label>
                     <div id="m2" class="form-group "><input type="text" class="form-control p-2" id="un" name="un" placeholder="Enter username or email" onfocus="this.value=''"  required/>
                     </div>
-                    
+                    <label for="p1">Enter Password</label>
                     <div id="m2" class="form-group "><input type="text" class="form-control p-2" id="p1" name="p1" placeholder="Enter password" onfocus="this.value=''" required/>
                     </div>
                     <div  id="fp"align="left" style="margin-top: 3%; "><a href="#">Forgot Password</a></div>

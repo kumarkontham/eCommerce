@@ -15,7 +15,8 @@
                 <div style="display: flex;gap: 20px;font-family: system-ui;font-size: large;font-size: medium;">
               <!-- <button class="btn btn-primary" style="width: 40%;height: 50px;"><a  href="{% url 'add_to_cart' product.id %}" style="text-overflow: clip;text-decoration: none;color: rgb(255, 255, 255);font-size: large;font-weight: 400;">Add to Cart</a></button>
               <button class="btn btn-warning " style="width: 40%;"><a  href="{% url 'add_to_cart' product.id %}" style="text-overflow: clip;text-decoration: none;color: black;text-decoration: none;color: black;font-size: large;font-weight: 500;">Buy Now</a></button> -->
-              {%if product.id in cart_ids %}
+              {%if request.user.is_authenticated %}
+                {%if product.id in cart_ids %}
                     <a class="btn btn-warning"style="width: 40%;height: 50px;text-overflow: clip;text-decoration: none;color: rgb(255, 255, 255);font-size: large;font-weight: 400;gap:10px;padding-top:10px;" href="/cart"><span style="padding-top: 5px; margin-top: 0%;font-weight: 500;" id=""><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"  viewBox="0 0 16 16" style="display: inline-flex;color: black;">
                         <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .49.598l-1 5a.5.5 0 0 1-.465.401l-9.397.472L4.415 11H13a.5.5 0 0 1 0 1H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l.84 4.479 9.144-.459L13.89 4zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
                       </svg></span> Go to cart</a>
@@ -24,6 +25,10 @@
                     <a class="btn btn-primary"style="width: 40%;height: 50px;text-overflow: clip;text-decoration: none;color: rgb(255, 255, 255);font-size: large;font-weight: 400;gap:10px;padding-top:10px;" href="{% url 'add_to_cart' product.id %}"><span><img src="{%static 'images/add-cart.png'%}" alt="" style="width: 25px;height: 25px;margin-right: 10px;"></span>Add to Cart</a>
                     <a class="btn btn-dark"style="width: 40%;height: 50px;text-overflow: clip;text-decoration: none;color: rgb(255, 255, 255);font-size: large;font-weight: 400;padding-top:10px;" href="/cart">Buy Now</a>
                 {%endif%}
+              {%else%}
+                    <a class="btn btn-primary"style="width: 40%;height: 50px;text-overflow: clip;text-decoration: none;color: rgb(255, 255, 255);font-size: large;font-weight: 400;gap:10px;padding-top:10px;" href="/carti"><span><img src="{%static 'images/add-cart.png'%}" alt="" style="width: 25px;height: 25px;margin-right: 10px;"></span>Add to Cart</a>
+                    <a class="btn btn-dark"style="width: 40%;height: 50px;text-overflow: clip;text-decoration: none;color: rgb(255, 255, 255);font-size: large;font-weight: 400;padding-top:10px;" href="/cart">Buy Now</a>
+              {%endif%}
               </div>
 
             {% else %}

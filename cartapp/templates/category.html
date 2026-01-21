@@ -26,7 +26,6 @@
                     <span>Stock:{{product.stock}}</span>
                     <a href="{%url 'product_detailed_view' product.id%}" class="btn btn-primary"style="width:80%;">View Product</a>
                     {%if request.user.is_authenticated %}
-
                      {% if product.stock > 0 %}
                     <a class="btn btn-primary"style="width:80%;" href="{% url 'add_to_cart' product.id %}">Add to Cart</a>
                     {%else%}
